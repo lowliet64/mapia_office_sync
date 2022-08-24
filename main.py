@@ -63,10 +63,16 @@ def main():
         else:
             last_file_content=[]
         
+        with open('results/employees.json','a',encoding="utf-8") as file:
+            file.write(json.dumps(last_file_content,ensure_ascii=False))
+            
         users = get_data(os.getenv('OFFICE_'+office+"_EMP_URL"),os.getenv('OFFICE_'+office+"_API_TOKEN"))
         current_content = copy.deepcopy(users['result']) 
         new_list,old_list=generate_diff_list(users['result'],last_file_content,office,"emp")
         final_response = transform_employees_list(new_list,office)
+
+
+
         file_name = 'users-'+(str(datetime.today())).replace(' ', '-')
         upload_to_s3(history_bucket,json.dumps(current_content,ensure_ascii=False),f"history/{office}/users/{file_name}.json")
 
@@ -87,10 +93,17 @@ def main():
         file_key =json.loads(response['Body'].read())
         final_response = transform_rub_list(file_key,new_list)
         file_name = 'users-'+(str(datetime.today())).replace(' ', '-')
+        with open('results/rubrics.json','a',encoding="utf-8") as file:
+            file.write(json.dumps(final_response,ensure_ascii=False))
         upload_to_s3(history_bucket,json.dumps(current_content,ensure_ascii=False),f"history/{office}/rubrics/{file_name}.json")
 
     print("#===== FIM DE EXECUÇÃO =====#")
-        
-        
 
 main()
+# schedule.every(10).minutes.do(main)
+
+# while True:
+#     os.system('cls') or None
+#     print("Experando pela próxima execução ....")
+#     schedule.run_pending()
+#     time.sleep(1)

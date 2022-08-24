@@ -77,8 +77,8 @@ def transform_employees_list(employee_list,office_id):
     companies_codes=[]
     companies=[]
     for employee in employee_list:
-        if employee.get('company_code') in companies_codes:
-            companies[companies_codes.index(employee.get('company_code'))]['empregado'].append(
+        if employee.get('codigo') in companies_codes:
+            companies[companies_codes.index(employee.get('codigo'))]['empregado'].append(
                 employee
             )
         else:
@@ -89,8 +89,14 @@ def transform_employees_list(employee_list,office_id):
                 "inscricao":employee.get('inscricao'),
                 "empregado":[]
             }
-            companies_codes.append(employee.get('company_code'))
+            companies_codes.append(employee.get('codigo'))
             companies.append(company)
+            
+            companies[companies_codes.index(employee.get('codigo'))]['empregado'].append(
+                employee
+            )
+
+
     return companies
 
 def transform_rub_list(file_key,rubric_list):
