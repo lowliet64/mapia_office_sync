@@ -62,9 +62,6 @@ def main():
             last_file_content=last_file_response
         else:
             last_file_content=[]
-        
-        with open('results/employees.json','a',encoding="utf-8") as file:
-            file.write(json.dumps(last_file_content,ensure_ascii=False))
             
         users = get_data(os.getenv('OFFICE_'+office+"_EMP_URL"),os.getenv('OFFICE_'+office+"_API_TOKEN"))
         current_content = copy.deepcopy(users['result']) 
@@ -84,6 +81,8 @@ def main():
             last_file_content=last_file_rubrics_response
         else:
             last_file_content=[]
+        
+
         
         rubrics = get_data(os.getenv('OFFICE_'+office+"_RUB_URL"),os.getenv('OFFICE_'+office+"_API_TOKEN"))
         current_content = copy.deepcopy(rubrics['result'])
