@@ -88,9 +88,11 @@ def main():
         current_content = copy.deepcopy(rubrics['result'])
         new_list,old_list=generate_diff_list(rubrics['result'],last_file_content,office,"rub")
         bucket_name=os.getenv('BUCKET_SOURCE')
-        response = s3_client.get_object(Bucket=bucket_name, Key='history/'+office+'/key/keys.json')
-        file_key =json.loads(response['Body'].read())
-        final_response = transform_rub_list(file_key,new_list)
+
+        with open("keys/"+office+"/keys.json",encoding="utf-8") as file:
+            file_key= json.loads(file.read())
+       
+        final_response = transform_rub_list(file_key["rubrics"],new_list)
         file_name = 'users-'+(str(datetime.today())).replace(' ', '-')
         with open('results/rubrics.json','a',encoding="utf-8") as file:
             file.write(json.dumps(final_response,ensure_ascii=False))
