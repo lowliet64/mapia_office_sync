@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import copy
 import schedule
 import time
+import logging
 
 load_dotenv()  
 session = boto3.Session(
@@ -68,6 +69,8 @@ def main():
         new_list,old_list=generate_diff_list(users['result'],last_file_content,office,"emp")
         final_response = transform_employees_list(new_list,office)
 
+        with open('results/employees.json','a',encoding="utf-8") as file:
+            file.write(json.dumps(final_response,ensure_ascii=False))
 
 
         file_name = 'users-'+(str(datetime.today())).replace(' ', '-')
@@ -92,7 +95,8 @@ def main():
         with open("keys/"+office+"/keys.json",encoding="utf-8") as file:
             file_key= json.loads(file.read())
        
-        final_response = transform_rub_list(file_key["rubrics"],new_list)
+        final_response = transform_rub_list(file_key,new_list)
+
         file_name = 'users-'+(str(datetime.today())).replace(' ', '-')
         with open('results/rubrics.json','a',encoding="utf-8") as file:
             file.write(json.dumps(final_response,ensure_ascii=False))
@@ -101,6 +105,7 @@ def main():
     print("#===== FIM DE EXECUÇÃO =====#")
 
 main()
+logging.info("teste")
 # schedule.every(10).minutes.do(main)
 
 # while True:

@@ -1,7 +1,16 @@
 {
     "rubrics": {
+        "company_code": "codigo",
+        "group_event": "grupo_rubrica",
+        "grupo_rubrica->process_type": "grupo_rubrica->tipo_processo->codigo",
+        "grupo_rubrica->items": "grupo_rubrica->rubricas",
+        "company_cpf_cnpj": "inscricao"
+    },
+    "rubric_item": {
+        "event_code": "codigo",
         "name": "descricao",
-        "group_event": "grupo_rubrica"
+        "type": "tipo",
+        "unity": "tipo_unidade"
     },
     "employees": {
         "name": "nome",
